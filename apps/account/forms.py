@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.utils.translation import gettext, gettext_lazy as _
 
 
-from account.models import Account
+from apps.account.models import Account
 
 
 class RegistrationForm(UserCreationForm):
