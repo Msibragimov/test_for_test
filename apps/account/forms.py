@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django import forms
 from django.contrib.auth import password_validation
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
 
 
@@ -28,21 +30,40 @@ class RegistrationForm(UserCreationForm):
 
 	class Meta(UserCreationForm.Meta):
 		model = Account
-		fields = ('username', 'email', 'password1', 'password2', 'profile_photo')
+		fields = ('username', 'email', 'password1', 'password2')
 
 	def __init__(self, *args, **kwargs) -> None:
-		super(RegistrationForm,self).__init__(*args, **kwargs)
+		super(RegistrationForm, self).__init__(*args, **kwargs)
 		self.fields['username'].widget.attrs.update({'class':'form-control','placeholder':'Enter Username'})
 		self.fields['email'].widget.attrs.update({'class':'form-control','placeholder':'Enter email'})
 		self.fields['password1'].widget.attrs.update({'class':'form-control','placeholder':'Enter password'})
 		self.fields['password2'].widget.attrs.update({'class':'form-control','placeholder':'Enter password confirmation'})
-		self.fields['profile_photo'].widget.attrs.update({'class':'form-control','placeholder':'Chouse avatar'})
 
-	def save(self, commit=True):
-		user = super(RegistrationForm, self).save(commit=False)
-		user.email = self.cleaned_data['email']
-		if commit:
-			user.save()
+	def clean_username(self):
+		username = self.cleaned_data['username']
+		if Account.objects.filter(username=username).exists():
+			raise forms.ValidationError("Username already exists")
+		return username
+
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		if Account.objects.filter(email=email).exists():
+			raise forms.ValidationError("Email already exists")
+		return email
+
+	def clean(self):
+		form_data = self.cleaned_data
+		if form_data['password1'] != form_data['password2']:
+			self._errors["password2"] = ["Password do not match"] # Will raise a error message
+			del form_data['password2']
+		return form_data
+
+	def save(self, commit = True):  
+		user = Account.objects.create(  
+			self.cleaned_data['username'],  
+			self.cleaned_data['email'],  
+			self.cleaned_data['password1']
+		)  
 		return user
 
 class UserForm(AuthenticationForm):

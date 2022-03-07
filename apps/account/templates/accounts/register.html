@@ -1,19 +1,4 @@
-<html>
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <title>
-        Registration
-    </title>
-</head>
+{% extends "base.html" %}
 <style>
   .username{
     padding-left: 100%;
@@ -25,55 +10,50 @@
     position: fixed;
   }
 </style>
-<body>
-  <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top navbar-inverse">
-      <a href="{% url 'homepage' %}" class="navbar-brand">
-        <span class="h2">Website</span>
-      </a>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav username_2 mr-auto">
-          {% if not user.is_authenticated %}
-          <li class="nav-item rounded active">
-            <a class="nav-link border-0" href="{% url 'login' %}"><button type="button" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt">Login</i></button></a>
-          </li><li class="nav-item rounded active">
-            <a class="nav-link border-0 " href="{% url 'register' %}"><button type="button" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt">Registration</i></button></a>
-          </li>
-        </ul>
-          {% else %}
-        <ul class="navbar-nav username mr-auto">
-          <li class="nav-item rounded active">
-            <a class="nav-link border-0" href="{% url 'logout' %}"><button type="button" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt">Logout</i></button></a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </nav>
-  </div>
 {% block content %}
-    <div class="container" style="margin-top: 1%;">
+    <div class="container" style="margin-top: 8%;">
         <div class="row justify-content-md-center">
             <div class="col-md-3">
-            <img class="mb-4" style="margin-left: 34%;" src="/media/images/icon-login-4.jpg" alt="" width="80" height="80">
+            <img class="mb-4" style="margin-left: 34%;" src="/media/images/profile-avatar-png-8.png" alt="" width="80" height="80">
             <h1 class="text-center">SignUp</h1>
             <form method="post" action="{% url 'register' %}" novalidate enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label"></label>
-                    {{form.username}}
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label"></label>
-                    {{form.email}}
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label"></label>
-                    {{form.password1}}
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label"></label>
-                    {{form.password2}}
-                </div>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label"></label>
+                          {{form.username}}
+                          {% if form.username.errors %}
+                          <div class="alert alert-danger alert-dismissible fade show" style="margin-top: 4%;"> {{form.username.errors}}
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          </div>
+                          {% endif %}
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label"></label>
+                          {{form.email}}
+                          {% if form.email.errors %}
+                          <div class="alert alert-danger alert-dismissible fade show"> {{form.email.errors}}
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          </div>
+                          {% endif %}
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label"></label>
+                          {{form.password1}}
+                          {% if form.password1.errors %}
+                          <div class="alert alert-danger alert-dismissible fade show"> {{form.password1.errors}}
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          </div>
+                          {% endif %}
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-sm-4 col-form-label"></label>
+                          {{form.password2}}
+                          {% if form.password2.errors %}
+                          <div class="alert alert-danger alert-dismissible fade show"> {{form.password2.errors}}
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                          </div>
+                          {% endif %}
+                      </div>
                 <input name="next" type="hidden" value="{{next}}">
                 <button class="btn-block btn btn-primary" type="submit">Register</button>
             </form>
@@ -82,5 +62,3 @@
         </div>
     </div>
 {% endblock %}
-</body>
-</html>

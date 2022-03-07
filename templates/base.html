@@ -1,0 +1,151 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>  <title>
+      Homepage
+  </title>
+</head>
+<style>
+  * {
+  box-sizing: border-box;
+}
+
+.responsive {
+  padding: 0 6px;
+  float: left;
+  width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .responsive {
+    width: 100%;
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+  .sidenav {
+  height: 90%;
+  width: 190px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 65px;
+}
+  .grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+div.gallery {
+  margin: 20px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 250px;
+}
+
+div.gallery:hover {
+  border: 2px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+}
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+  .username{
+    padding-left: 100%;
+  }
+  .username_2{
+    padding-left: 70%;
+  }
+  .static_nav{
+    position: fixed;
+  }
+  .zoom:hover {
+    transform: scale(1.05);
+  }
+  .navbar-fixed-top{
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 1030;
+  }
+</style>
+<body>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top navbar-default">
+      <button class="w3-dark-grey w3-button w3-xlarge" onclick="w3_open()">☰</button>
+      <a href="#" class="navbar-brand" style="margin-left: 43%;">
+        <span class="h2">Website</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav username_2 mr-auto">
+          {% if not user.is_authenticated %}
+          <li class="nav-item rounded active">
+            <a class="nav-link border-0" href="{% url 'login' %}"><button type="button" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt">Login</i></button></a>
+          </li><li class="nav-item rounded active">
+            <a class="nav-link border-0 " href="{% url 'register' %}"><button type="button" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt">SignUp</i></button></a>
+          </li>
+        </ul>
+          {% else %}
+        <ul class="navbar-nav username mr-auto">
+          <li class="nav-item rounded active">
+            <a class="nav-link border-0" href="{% url 'logout' %}"><button type="button" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt">Logout</i></button></a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+  </div>
+    <div>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+  <script>
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+    }
+    
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
